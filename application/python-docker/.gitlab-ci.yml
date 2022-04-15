@@ -14,8 +14,8 @@ application:test:
     ASSET_NAME: application
     APP_NAME: python-docker
   before_script:
-    - cd ${ASSET_NAME}
-    - pip install -r ${APP_NAME}/requirements.txt
+    - cd ${ASSET_NAME}/${APP_NAME}
+    - pip install -r requirements.txt
   script:
     - python -m pytest --capture=no tests/test.py
 
