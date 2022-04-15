@@ -24,6 +24,8 @@ application:build:
   when: on_success
   image:
     name: docker:latest
+  services:
+    - docker:dind
   only:
     refs:
       - main
@@ -35,8 +37,14 @@ application:build:
   before_script:
     - cd ${ASSET_NAME}/${APP_NAME}
   script:
-    - docker build -t registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver .
-    - docker push registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver
+    - docker version
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    # push only for tags
+    - "[[ -z $CI_BUILD_TAG ]] && exit 0"
+    - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$CI_BUILD_TAG
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE:$CI_BUILD_TAG
+
 
 #application:deploy:
 # stage: package
