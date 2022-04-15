@@ -1,0 +1,1 @@
+docker build -t registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver .

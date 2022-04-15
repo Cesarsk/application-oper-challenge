@@ -1,0 +1,1 @@
+docker push registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver
