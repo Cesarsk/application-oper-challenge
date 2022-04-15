@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-webserver
+  labels:
+    run: python-webserver
+spec:
+  selector:
+    matchLabels:
+      run: python-webserver
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: python-webserver
+    spec:
+      containers:
+        - name: python-webserver
+          image: registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver
+          ports:
+            - name: containerport
+              containerPort: 4545
+      imagePullSecrets:
+        - name: regcred
