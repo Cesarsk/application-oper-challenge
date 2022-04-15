@@ -23,6 +23,7 @@ def post_upload_random():
     max = 9999
     random_number = str(random.randint(min, max))
     filename = f'{random_number}.txt'
+
     file.create_file(filename, random_number)
     s3.upload_file(file_name=filename, bucket='oper-random-numbers')
     return {"uploaded": "ok"}
