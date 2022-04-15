@@ -25,5 +25,5 @@ def post_upload_random():
     filename = f'{random_number}.txt'
 
     file.create_file(filename, random_number)
-    s3.upload_file(file_name=filename, bucket='oper-random-numbers')
+    s3.upload_file(file_name=filename, bucket='oper-qual-staging')
     return {"uploaded": "ok"}
