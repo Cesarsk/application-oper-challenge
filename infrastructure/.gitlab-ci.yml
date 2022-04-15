@@ -1,0 +1,63 @@
+stages:
+  - validate
+  - plan
+  - apply
+
+infrastructure:validate:
+  stage: validate
+  image:
+    name: terraform:latest
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  only:
+    refs:
+      - master
+  variables:
+    ASSET_NAME: infrastructure
+  before_script:
+    - cd ${ASSET_NAME}
+  script:
+    - terraform init --reconfigure -input=false
+    - terraform validate -json
+
+apps:prod:plan:
+  stage: plan
+  image:
+    name: terraform:latest
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  only:
+    refs:
+      - master
+  variables:
+    ASSET_NAME: infrastructure
+    INFR_FILE: vars/infr.tfvars.json
+  before_script:
+    - cd ${ASSET_NAME}
+  script:
+    - terraform init --reconfigure -input=false
+    - terraform plan -input=false -out=plan.tfplan -var-file=${INFR_FILE}
+  artifacts:
+    paths:
+      - ${ASSET_NAME}/plan.tfplan
+
+apps:prod:apply:
+  stage: apply
+  image:
+    name: terraform:latest
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  when: manual
+  only:
+    refs:
+      - master
+  variables:
+    ASSET_NAME: infrastructure
+  before_script:
+    - cd ${ASSET_NAME}
+  script:
+    - terraform init --reconfigure -input=false
+    - terraform apply -input=false -auto-approve -compact-warnings plan.tfplan
