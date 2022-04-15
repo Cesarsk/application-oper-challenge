@@ -1,0 +1,61 @@
+application:test:
+  stage: test
+  allow_failure: false
+  image:
+    name: python:3.8
+  only:
+    refs:
+      - master
+      - develop
+      - /^hotfix.*$/
+    changes:
+      - application/python-docker/**/*
+  variables:
+    ASSET_NAME: application
+    APP_NAME: python-docker
+  before_script:
+    - cd ${ASSET_NAME}
+    - pip install -r ${APP_NAME}/requirements.txt
+  script:
+    - python -m pytest --capture=no tests/test.py
+
+application:build:
+  stage: build
+  when: on_success
+  image:
+    name: docker:latest
+  only:
+    refs:
+      - master
+    changes:
+      - application/python-docker/**/*
+  variables:
+    ASSET_NAME: application
+    APP_NAME: python-docker
+  before_script:
+    - cd ${ASSET_NAME}/
+  script:
+    - docker build -t registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver .
+    - docker push registry.gitlab.com/astrolu/cicd-kubernetes-iaac-webserver
+
+#application:deploy:
+# stage: package
+# when: on_success
+# needs:
+#   - apps:push-handler-lambda-function:build
+# image:
+#   name: bitnami/kubectl:latest
+# only:
+#   refs:
+#     - master
+#     - /^hotfix.*$/
+#   changes:
+#     - apps/push-handler-lambda-function/**/*
+# variables:
+#   ASSET_NAME: application
+#   APP_NAME: python-docker
+# before_script:
+#   - cd ${ASSET_NAME}/${APP_NAME}/dist
+#   - pip install awscli --upgrade
+# script:
+#   - aws s3 sync ./ s3://${S3_BUCKET_NAME}/${S3_SRC_PATH}/${ASSET_NAME}/${APP_NAME}/${CI_COMMIT_SHA}/
