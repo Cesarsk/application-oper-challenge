@@ -5,7 +5,7 @@ application:test:
     name: python:3.8
   only:
     refs:
-      - master
+      - main
       - develop
       - /^hotfix.*$/
     changes:
@@ -26,7 +26,7 @@ application:build:
     name: docker:latest
   only:
     refs:
-      - master
+      - main
     changes:
       - application/python-docker/**/*
   variables:
@@ -47,7 +47,7 @@ application:build:
 #   name: bitnami/kubectl:latest
 # only:
 #   refs:
-#     - master
+#     - main
 #     - /^hotfix.*$/
 #   changes:
 #     - apps/push-handler-lambda-function/**/*
