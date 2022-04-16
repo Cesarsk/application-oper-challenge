@@ -82,7 +82,7 @@ If so, it triggers a **plan** phase in which a tf plan is created.
 
 A final manual **apply** phase to deploy automatically the infrastructure.
 
-### Points of improvements
+## Points of improvements
 
 With more time given, some adjustments can be made in every part of the architecture. I would personally:
 
