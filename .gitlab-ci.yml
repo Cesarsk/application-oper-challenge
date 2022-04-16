@@ -1,6 +1,6 @@
 stages:
-  - app:test
-  - app:build
+  - test
+  - build
 
 include:
   - local: application/python-docker/.gitlab-ci.yml
