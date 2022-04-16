@@ -1,10 +1,6 @@
 stages:
   - app:test
   - app:build
-  - inf:validate
-  - inf:plan
-  - inf:apply
 
 include:
   - local: application/python-docker/.gitlab-ci.yml
-  - local: infrastructure/.gitlab-ci.yml
