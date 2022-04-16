@@ -7,7 +7,7 @@ answer to the bonus question and suggestions of improvements.
 
 The architecture of the proposed solution is the following:
 
-[Insert image here]
+![Conceptual Diagram](docs/architecture-High_Level_Architecture.drawio.png)
 
 ## Technology Stack used and explanations
 
@@ -60,6 +60,8 @@ The architecture of the proposed solution is the following:
     - contains some utility scripts to automate some operations during the dev phase.
 
 ## Details on Pipelines
+
+![CI Pipelines](docs/architecture-CI_Pipelines.drawio.png)
 
 ### Application Pipeline
 
