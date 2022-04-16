@@ -1,10 +1,9 @@
 stages:
-  - test
-  - build
-  - deploy
-  - validate
-  - plan
-  - apply
+  - app:test
+  - app:build
+  - inf:validate
+  - inf:plan
+  - inf:apply
 
 include:
   # Apps

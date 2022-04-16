@@ -1,5 +1,5 @@
 application:test:
-  stage: test
+  stage: app:test
   allow_failure: false
   image:
     name: python:3.8
@@ -20,7 +20,7 @@ application:test:
     - python -m pytest --capture=no tests/test.py
 
 application:build:
-  stage: build
+  stage: app:build
   when: on_success
   image:
     name: docker:latest

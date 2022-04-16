@@ -1,5 +1,5 @@
 infrastructure:validate:
-  stage: validate
+  stage: inf:validate
   image:
     name: terraform:latest
     entrypoint:
@@ -20,7 +20,7 @@ infrastructure:validate:
     - terraform validate -json
 
 infrastructure:plan:
-  stage: plan
+  stage: inf:plan
   image:
     name: terraform:latest
     entrypoint:
@@ -45,7 +45,7 @@ infrastructure:plan:
       - ${ASSET_NAME}/plan.tfplan
 
 infrastructure:apply:
-  stage: apply
+  stage: inf:apply
   image:
     name: terraform:latest
     entrypoint:
