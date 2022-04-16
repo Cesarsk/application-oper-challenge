@@ -12,9 +12,9 @@ module "k8s_deployment" {
 
   python_webserver_image = var.python_webserver_image
 
-  registry_password      = var.registry_password
-  registry_server        = var.registry_server
-  registry_username      = var.registry_username
+  registry_password = var.registry_password
+  registry_server   = var.registry_server
+  registry_username = var.registry_username
 }
 
 module "k8s_service" {
