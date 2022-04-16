@@ -2,6 +2,9 @@ stages:
   - test
   - build
   - deploy
+  - validate
+  - plan
+  - apply
 
 include:
   # Apps
