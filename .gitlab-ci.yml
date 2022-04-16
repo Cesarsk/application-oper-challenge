@@ -6,4 +6,4 @@ stages:
 include:
   # Apps
   - local: application/python-docker/.gitlab-ci.yml
-  #- local: infrastructure/.gitlab-ci.yml
+  - local: infrastructure/.gitlab-ci.yml

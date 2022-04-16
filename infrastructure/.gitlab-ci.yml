@@ -10,30 +10,36 @@ infrastructure:validate:
     entrypoint:
       - '/usr/bin/env'
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  variables:
+    ASSET_NAME: infrastructure
   only:
     refs:
       - master
-  variables:
-    ASSET_NAME: infrastructure
+      - develop
+    changes:
+      - ${ASSET_NAME}/**/*
   before_script:
     - cd ${ASSET_NAME}
   script:
     - terraform init --reconfigure -input=false
     - terraform validate -json
 
-apps:prod:plan:
+infrastructure:plan:
   stage: plan
   image:
     name: terraform:latest
     entrypoint:
       - '/usr/bin/env'
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  only:
-    refs:
-      - master
   variables:
     ASSET_NAME: infrastructure
     INFR_FILE: vars/infr.tfvars.json
+  only:
+    refs:
+      - master
+      - develop
+    changes:
+      - ${ASSET_NAME}/**/*
   before_script:
     - cd ${ASSET_NAME}
   script:
@@ -43,7 +49,7 @@ apps:prod:plan:
     paths:
       - ${ASSET_NAME}/plan.tfplan
 
-apps:prod:apply:
+infrastructure:apply:
   stage: apply
   image:
     name: terraform:latest
@@ -51,11 +57,13 @@ apps:prod:apply:
       - '/usr/bin/env'
       - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   when: manual
+  variables:
+    ASSET_NAME: infrastructure
   only:
     refs:
       - master
-  variables:
-    ASSET_NAME: infrastructure
+    changes:
+      - ${ASSET_NAME}/**/*
   before_script:
     - cd ${ASSET_NAME}
   script:
