@@ -9,7 +9,7 @@ infrastructure:validate:
     ASSET_NAME: infrastructure
   only:
     refs:
-      - master
+      - main
       - develop
     changes:
       - ${ASSET_NAME}/**/*
@@ -31,7 +31,7 @@ infrastructure:plan:
     INFR_FILE: vars/infr.tfvars.json
   only:
     refs:
-      - master
+      - main
       - develop
     changes:
       - ${ASSET_NAME}/**/*
@@ -56,7 +56,7 @@ infrastructure:apply:
     ASSET_NAME: infrastructure
   only:
     refs:
-      - master
+      - main
     changes:
       - ${ASSET_NAME}/**/*
   before_script:
