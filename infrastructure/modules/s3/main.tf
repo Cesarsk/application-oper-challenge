@@ -11,6 +11,7 @@ resource "aws_s3_bucket" "oper_staging" {
 }
 */
 
+
 resource "aws_s3_bucket" "oper_terraform_state" {
   bucket = var.oper_terraform_state
   acl    = "private"
