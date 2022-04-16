@@ -20,7 +20,7 @@ def transform(value):
 
 
 if __name__ == '__main__':
-    value = "FOoBar25$asdCOJN!1203812037810"
+    value = "FOoBar25$asdCOJN!120381203781"
     result = transform(value)
     print(result)
 
