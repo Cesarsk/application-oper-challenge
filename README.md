@@ -3,9 +3,20 @@
 Herein you will find the proposed solution to the task assigned and a detailed explanation of the solution as well as the
 answer to the bonus question and suggestions of improvements.
 
-The application code is contained in this repo.
+There are two repositories for this project:
 
-The infrastructure code is in the following repo: https://gitlab.com/astrolu/infrastructure-oper-challenge/
+The application code is contained in the application repository (this one) with the webserver app developed in python and its pipeline.
+
+The infrastructure code is contained in the infrastructure repository (this one) with the terraform code and its pipeline. It's located at the following url: https://gitlab.com/astrolu/infrastructure-oper-challenge/
+
+
+# DNS Records
+
+I created two records to quickly reach the cluster and the service from outside.
+More specifically:
+
+- *cluster.lucacesarano.com* points at the k8s cluster
+- *service.lucacesarano.com* points at the external-ip of the load balancer service that points at the deployment of the python webserver
 
 # Explanation
 
@@ -16,8 +27,9 @@ The architecture of the proposed solution is the following:
 ## Technology Stack used and explanations
 
 - **K8S**: a Minikube cluster runs locally on Mac Os. It's made of a Deployment and a Service with a LoadBalancer mapped
-  on the port 80, to the webservice running on port 4545, as per requirements. It runs a gitlab agent installed with
-  helm so that an automatic deployment via Terraform from the Gitlab runner on the cluster is possible.
+  on the port 80, to the webservice running on port 4545, as per requirements. 
+  
+  It is possible to deploy automatically the infrastructure using Gitlab CI.
 
 
 - **CI/CD**: gitlab CI has been used to host:
@@ -27,7 +39,7 @@ The architecture of the proposed solution is the following:
     - Private Image Registry for the custom webserver docker image
 
 
-- **Code** (under application folder): Python has been used (with Flask) to develop the webserver (tests included)
+- **Code** (under application repo): Python has been used (with Flask) to develop the webserver (tests included)
     - _src/_
         - _app.py_ contains the webserver
         - _file.py_ contains the function that creates a file
@@ -47,7 +59,7 @@ The architecture of the proposed solution is the following:
         - POST _/api/upload-random_
 
 
-- **IAAC** (under infrastructure folder):
+- **IAAC** (under infrastructure repo):
     - Terraform has been used as IAAC to deploy all Kubernetes and S3 related resources.
         - Kubernetes Resources:
             - Deployment (_modules/k8s/deployment_)
@@ -92,7 +104,6 @@ With more time given, some adjustments can be made in every part of the architec
 
 - Instead of using a local cluster, use a service like EKS to host the k8s cluster
 - Develop more unit tests in the webserver
-- Adjust environment variables and secrets using a secret manager like AWS Secret Manager / Parameter Store
 
 # Bonus Question
 
