@@ -1,22 +1,23 @@
 # README
 
-Herein you will find the proposed solution to the task assigned and a detailed explanation of the solution as well as the
-answer to the bonus question and suggestions of improvements.
+Herein you will find the proposed solution to the task assigned and a detailed explanation of the solution as well as
+the answer to the bonus question and suggestions of improvements.
 
 There are two repositories for this project:
 
-The application code is contained in the application repository (this one) with the webserver app developed in python and its pipeline.
+The application code is contained in the application repository (this one) with the webserver app developed in python
+and its pipeline.
 
-The infrastructure code is contained in the infrastructure repository with the terraform code and its pipeline. Repository url: https://gitlab.com/astrolu/infrastructure-oper-challenge/
-
+The infrastructure code is contained in the infrastructure repository with the terraform code and its pipeline.
+Repository url: https://gitlab.com/astrolu/infrastructure-oper-challenge/
 
 # DNS Records
 
-I created two records to quickly reach the cluster and the service from outside.
-More specifically:
+I created two records to quickly reach the cluster and the service from outside. More specifically:
 
 - *cluster.lucacesarano.com* points at the k8s cluster
-- *service.lucacesarano.com* points at the external-ip of the load balancer service that points at the deployment of the python webserver
+- *service.lucacesarano.com* points at the external-ip of the load balancer service that points at the deployment of the
+  python webserver
 
 # Explanation
 
@@ -26,9 +27,10 @@ The architecture of the proposed solution is the following:
 
 ## Technology Stack used and explanations
 
-- **K8S**: a Minikube cluster runs locally on my Macbook. It's made of a Deployment and a Service with a LoadBalancer mapped
-  on the port 80, to the webservice running on port 4545, as per requirements. A namespace **oper** has been created for the purpose with a ServiceAccount svc-terraform that Terraform uses for the deployment.
-  
+- **K8S**: a Minikube cluster runs locally on my Macbook. It's made of a Deployment and a Service with a LoadBalancer
+  mapped on the port 80, to the webservice running on port 4545, as per requirements. A namespace **oper** has been
+  created for the purpose with a ServiceAccount **svc-terraform** that Terraform uses for the deployment.
+
   It is possible to deploy automatically the infrastructure using Gitlab CI.
 
 
@@ -77,7 +79,8 @@ The architecture of the proposed solution is the following:
     - contains some utility scripts to automate some operations during the dev phase.
 
 - **Security** (optional):
-    - contains some yaml used to deploy the security. The svc-terraform ServiceAccount, the ClusterRole and the ClusterRoleBinding.
+    - contains some yaml used to deploy the security. The svc-terraform ServiceAccount, the ClusterRole and the
+      ClusterRoleBinding.
 
 ## Details on Pipelines
 
@@ -119,8 +122,8 @@ points to cover.
 
 ### High Availability (HA)
 
-In order to make our Cluster resilient, AWS provides the concept of Availability Zones (AZs). Amazon Elastic
-Kubernetes Service (as in every managed AWS service)
+In order to make our Cluster resilient, AWS provides the concept of Availability Zones (AZs). Amazon Elastic Kubernetes
+Service (as in every managed AWS service)
 is natively HA. To be HA, the control plane of the kubernetes cluster runs and scales across many AZs.
 
 ### Scalability
