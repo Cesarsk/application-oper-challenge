@@ -7,7 +7,7 @@ There are two repositories for this project:
 
 The application code is contained in the application repository (this one) with the webserver app developed in python and its pipeline.
 
-The infrastructure code is contained in the infrastructure repository (this one) with the terraform code and its pipeline. It's located at the following url: https://gitlab.com/astrolu/infrastructure-oper-challenge/
+The infrastructure code is contained in the infrastructure repository with the terraform code and its pipeline. Repository url: https://gitlab.com/astrolu/infrastructure-oper-challenge/
 
 
 # DNS Records
@@ -26,8 +26,8 @@ The architecture of the proposed solution is the following:
 
 ## Technology Stack used and explanations
 
-- **K8S**: a Minikube cluster runs locally on Mac Os. It's made of a Deployment and a Service with a LoadBalancer mapped
-  on the port 80, to the webservice running on port 4545, as per requirements. 
+- **K8S**: a Minikube cluster runs locally on my Macbook. It's made of a Deployment and a Service with a LoadBalancer mapped
+  on the port 80, to the webservice running on port 4545, as per requirements. A namespace **oper** has been created for the purpose with a ServiceAccount svc-terraform that Terraform uses for the deployment.
   
   It is possible to deploy automatically the infrastructure using Gitlab CI.
 
@@ -65,6 +65,7 @@ The architecture of the proposed solution is the following:
             - Deployment (_modules/k8s/deployment_)
             - Service (_modules/k8s/service_)
             - Secret (_modules/k8s/deployment_)
+            - Namespace (_provider.tf_)
         - AWS Resources
             - Terraform State Bucket (_provider.tf_)
             - Staging Bucket for the POST API (_modules/s3_)
@@ -74,6 +75,9 @@ The architecture of the proposed solution is the following:
 
 - **SRE** (optional):
     - contains some utility scripts to automate some operations during the dev phase.
+
+- **Security** (optional):
+    - contains some yaml used to deploy the security. The svc-terraform ServiceAccount, the ClusterRole and the ClusterRoleBinding.
 
 ## Details on Pipelines
 
@@ -145,3 +149,7 @@ Instead of using the free shared runners that Gitlab gives to its users for free
 the pipeline process. This can be done registering an agent through the repository settings.
 
 We could create a HA runner hosted on AWS ECS Fargate that will run our pipelines.
+
+# Credits
+
+Thank you Oper for the challenge. Hope to hear from you soon to speak more about it.
